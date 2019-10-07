@@ -26,7 +26,8 @@ public class ImageResource {
         String dirName = "/home/mburgerh/work/java/quarkus-img-api/src/main/resources/images";
         try (Stream<java.nio.file.Path> walk = Files.walk(Paths.get(dirName))) {
             List<String> result = walk.filter(Files::isRegularFile)
-                .map(x -> x.toString()).collect(Collectors.toList());
+                .map(x -> "/api/image/" + x.getName(x.getNameCount() -1)
+                    .toString()).collect(Collectors.toList());
             result.forEach(System.out::println);
             return result;
         } catch (IOException e) {
