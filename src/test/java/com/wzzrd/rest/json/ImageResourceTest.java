@@ -12,7 +12,7 @@ public class ImageResourceTest {
     @Test
     public void testAllImagesEndpoint() {
         given()
-          .when().get("/api/all_images")
+          .when().get("/api/images")
           .then()
              .statusCode(200);
     }
