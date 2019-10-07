@@ -5,6 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.PathParam;
 
 import java.io.IOException;
@@ -42,10 +43,15 @@ public class ImageResource {
     public Response get_image(@PathParam("name") String name) {
         String dirName = "/home/mburgerh/work/java/quarkus-img-api/src/main/resources/images/";
         File file = new File(dirName + name);
-        System.out.print("Called image/" + name);
-        return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
-            .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" ) //optional
-            .build();
+        System.out.print("Starting process...");
+        if (file.exists()) {
+            System.out.print("Called image/" + name + " which is OK, 200.");
+            return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" ) //optional
+                .build();
+        } else {
+            System.out.print("Called image/" + name + " which is NOT_FOUND, 404.");
+            return Response.status(Status.NOT_FOUND).build();
+        }
     }
-
 }
