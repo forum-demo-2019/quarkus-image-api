@@ -20,7 +20,7 @@ import java.io.File;
 public class ImageResource {
 
     @GET
-    @Path("/all_images")
+    @Path("/images")
     @Produces(MediaType.APPLICATION_JSON)
     public List all_images() throws IOException{
         String dirName = "/home/mburgerh/work/java/quarkus-img-api/src/main/resources/images";
