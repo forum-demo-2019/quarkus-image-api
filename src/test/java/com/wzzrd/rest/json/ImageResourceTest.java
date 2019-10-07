@@ -10,12 +10,11 @@ import static org.hamcrest.CoreMatchers.is;
 public class ImageResourceTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void testAllImagesEndpoint() {
         given()
-          .when().get("/images")
+          .when().get("/api/all_images")
           .then()
-             .statusCode(200)
-             .body(is("hello"));
+             .statusCode(200);
     }
 
 }
