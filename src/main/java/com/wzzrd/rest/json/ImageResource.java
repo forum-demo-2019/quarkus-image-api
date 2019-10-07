@@ -9,12 +9,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.PathParam;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.*;
 import java.util.*;
+
+import java.io.File;
 
 @Path("/api")
 public class ImageResource {
@@ -38,11 +41,14 @@ public class ImageResource {
     }
 
     @GET
-    @Path("/image")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String get_image() {
-        return "just one";
+    @Path("/image/{name}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response get_image(@PathParam("name") String name) {
+        String dirName = "/home/mburgerh/work/java/quarkus-img-api/src/main/resources/images/";
+        File file = new File(dirName + name);
+        return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
+            .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" ) //optional
+            .build();
     }
 
 }
-
