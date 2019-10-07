@@ -42,6 +42,7 @@ public class ImageResource {
     public Response get_image(@PathParam("name") String name) {
         String dirName = "/home/mburgerh/work/java/quarkus-img-api/src/main/resources/images/";
         File file = new File(dirName + name);
+        System.out.print("Called image/" + name);
         return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
             .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" ) //optional
             .build();
