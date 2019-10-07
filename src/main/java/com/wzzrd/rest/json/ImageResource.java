@@ -22,20 +22,20 @@ public class ImageResource {
     @GET
     @Path("/all_images")
     @Produces(MediaType.TEXT_PLAIN)
-    public String all_images() throws IOException{
+    public ArrayList all_images() throws IOException{
         String dirName = "/home/mburgerh/work/java/quarkus-img-api/src/main/resources/images";
+        ArrayList imageArrayList2 = new ArrayList();
         try (Stream<java.nio.file.Path> paths = Files.walk(Paths.get(dirName))) {
             System.out.println(paths);
             List<java.nio.file.Path> imageList = paths.collect(Collectors.toList());
             System.out.println(imageList);
             ArrayList<java.nio.file.Path> imageArrayList = new ArrayList<java.nio.file.Path>(imageList);
             System.out.println(imageArrayList);
-            return "foo";
-
+            return imageArrayList;
         } catch (IOException ex) {
                 System.out.println("problem! image can't be loaded!");
         }
-        return "bar";
+        return imageArrayList2;
 
     }
 
