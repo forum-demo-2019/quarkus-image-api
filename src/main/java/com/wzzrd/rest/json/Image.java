@@ -1,4 +1,4 @@
-package org.acme.rest.json;
+package com.wzzrd.rest.json;
 
 import java.util.Objects;
 
