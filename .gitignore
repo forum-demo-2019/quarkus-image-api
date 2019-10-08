@@ -35,3 +35,5 @@ pom.xml.versionsBackup
 release.properties
 
 src/main/resources/images/*
+
+.envrc
