@@ -19,11 +19,12 @@ import java.io.File;
 @Path("/api")
 public class ImageResource {
 
+    private String dirName = "/home/mburgerh/work/java/quarkus-image-api/src/main/resources/images";
+
     @GET
     @Path("/images")
     @Produces(MediaType.APPLICATION_JSON)
     public List all_images() throws IOException{
-        String dirName = "/home/mburgerh/work/java/quarkus-img-api/src/main/resources/images";
         try (Stream<java.nio.file.Path> walk = Files.walk(Paths.get(dirName))) {
             List<String> result = walk.filter(Files::isRegularFile)
                 .map(x -> "/api/image/" + x.getName(x.getNameCount() -1)
@@ -41,16 +42,16 @@ public class ImageResource {
     @Path("/image/{name}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response get_image(@PathParam("name") String name) {
-        String dirName = "/home/mburgerh/work/java/quarkus-img-api/src/main/resources/images/";
-        File file = new File(dirName + name);
-        System.out.print("Starting process...");
+        File file = new File(dirName + "/" + name);
+        System.out.printf("Starting to send file %s...", name);
         if (file.exists()) {
-            System.out.print("Called image/" + name + " which is OK, 200.");
+            System.out.println("Called image/" + name + " which is OK, 200.");
             return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
-                .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" ) //optional
+                .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" )
                 .build();
         } else {
-            System.out.print("Called image/" + name + " which is NOT_FOUND, 404.");
+            System.out.println("Tried opening " + dirName + "/" + name + " which does not exist.");
+            System.out.println("Passing back a 404 NOT FOUND error.");
             return Response.status(Status.NOT_FOUND).build();
         }
     }
