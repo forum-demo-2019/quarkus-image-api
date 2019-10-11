@@ -43,7 +43,7 @@ public class ImageResource {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response get_image(@PathParam("name") String name) {
         File file = new File(dirName + "/" + name);
-        System.out.printf("Starting to send file %s...", name);
+        System.out.printf("Starting to send file %s...\n", name);
         if (file.exists()) {
             System.out.println("Called image/" + name + " which is OK, 200.");
             return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
