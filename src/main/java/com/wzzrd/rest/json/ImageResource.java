@@ -23,9 +23,9 @@ public class ImageResource {
     @Path("/images")
     @Produces(MediaType.APPLICATION_JSON)
     public List all_images() throws IOException{
-        String dirName = "/home/mburgerh/work/java/quarkus-img-api/src/main/resources/images";
+        String dirName = "/home/mburgerh/work/java/quarkus-image-api/src/main/resources/images";
         try (Stream<java.nio.file.Path> walk = Files.walk(Paths.get(dirName))) {
-            List<String> result = walk.filter(Files::isRegularFile)
+            List<String> result = walk.filter(Files::isRegularFile).filter(f -> ! f.endsWith(".gitkeep"))
                 .map(x -> "/api/image/" + x.getName(x.getNameCount() -1)
                     .toString()).collect(Collectors.toList());
             result.forEach(System.out::println);
@@ -41,7 +41,7 @@ public class ImageResource {
     @Path("/image/{name}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response get_image(@PathParam("name") String name) {
-        String dirName = "/home/mburgerh/work/java/quarkus-img-api/src/main/resources/images/";
+        String dirName = "/home/mburgerh/work/java/quarkus-image-api/src/main/resources/images/";
         File file = new File(dirName + name);
         System.out.print("Starting process...");
         if (file.exists()) {
