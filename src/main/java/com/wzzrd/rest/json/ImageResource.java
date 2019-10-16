@@ -42,16 +42,18 @@ public class ImageResource {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response get_image(@PathParam("name") String name) {
         File file = new File(dirName + "/" + name);
+        Response.ResponseBuilder builder;
+
         System.out.printf("Starting to send file %s...\n", name);
         if (file.exists()) {
             System.out.println("Called image/" + name + " which is OK, 200.");
-            return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
-                .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" )
-                .build();
+            builder = Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" );
         } else {
             System.out.println("Tried opening " + dirName + "/" + name + " which does not exist.");
             System.out.println("Passing back a 404 NOT FOUND error.");
-            return Response.status(Status.NOT_FOUND).build();
+            builder = Response.status(Status.NOT_FOUND);
         }
+        return builder.build();
     }
 }
