@@ -24,18 +24,17 @@ public class ImageResource {
     @GET
     @Path("/images")
     @Produces(MediaType.APPLICATION_JSON)
-    public List all_images() throws IOException{
+    public List all_images() throws IOException {
+        List<String> resultlist = null;
         try (Stream<java.nio.file.Path> walk = Files.walk(Paths.get(dirName))) {
-            List<String> result = walk.filter(Files::isRegularFile).filter(f -> ! f.endsWith(".gitkeep"))
+            resultlist = walk.filter(Files::isRegularFile).filter(f -> ! f.endsWith(".gitkeep"))
                 .map(x -> "/api/image/" + x.getName(x.getNameCount() -1)
                     .toString()).collect(Collectors.toList());
-            result.forEach(System.out::println);
-            return result;
+            resultlist.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        List empty = new ArrayList();
-        return empty;
+        return resultlist;
     }
 
     @GET
