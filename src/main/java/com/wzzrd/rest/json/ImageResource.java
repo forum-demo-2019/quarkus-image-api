@@ -25,17 +25,16 @@ public class ImageResource {
     @Path("/images")
     @Produces(MediaType.APPLICATION_JSON)
     public List all_images() throws IOException{
+        List<String> resultlist = null;
         try (Stream<java.nio.file.Path> walk = Files.walk(Paths.get(dirName))) {
-            List<String> result = walk.filter(Files::isRegularFile).filter(f -> ! f.endsWith(".gitkeep"))
+            resultlist = walk.filter(Files::isRegularFile).filter(f -> ! f.endsWith(".gitkeep"))
                 .map(x -> "/api/image/" + x.getName(x.getNameCount() -1)
                     .toString()).collect(Collectors.toList());
-            result.forEach(System.out::println);
-            return result;
+            resultlist.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        List empty = new ArrayList();
-        return empty;
+        return resultlist;
     }
 
     @GET
@@ -43,16 +42,19 @@ public class ImageResource {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response get_image(@PathParam("name") String name) {
         File file = new File(dirName + "/" + name);
+        Response response = new Response.Status;
+
         System.out.printf("Starting to send file %s...\n", name);
         if (file.exists()) {
             System.out.println("Called image/" + name + " which is OK, 200.");
-            return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
+            response = Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
                 .header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"" )
                 .build();
         } else {
             System.out.println("Tried opening " + dirName + "/" + name + " which does not exist.");
             System.out.println("Passing back a 404 NOT FOUND error.");
-            return Response.status(Status.NOT_FOUND).build();
+            response = Response.status(Status.NOT_FOUND).build();
         }
+        return response;
     }
 }
