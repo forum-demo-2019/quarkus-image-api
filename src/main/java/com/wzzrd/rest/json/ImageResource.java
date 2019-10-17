@@ -24,6 +24,9 @@ public class ImageResource {
     @ConfigProperty(name = "image-server.dirName")
     String dirName;
 
+    @ConfigProperty(name = "image-server.hostName")
+    String hostName;
+
     @GET
     @Path("/images")
     @Produces(MediaType.APPLICATION_JSON)
@@ -31,7 +34,7 @@ public class ImageResource {
         List<String> resultlist = null;
         try (Stream<java.nio.file.Path> walk = Files.walk(Paths.get(dirName))) {
             resultlist = walk.filter(Files::isRegularFile).filter(f -> ! f.endsWith(".gitkeep"))
-                .map(x -> "/api/image/" + x.getName(x.getNameCount() -1)
+                .map(x -> hostName + "/api/image/" + x.getName(x.getNameCount() -1)
                     .toString()).collect(Collectors.toList());
             resultlist.forEach(System.out::println);
         } catch (IOException e) {
