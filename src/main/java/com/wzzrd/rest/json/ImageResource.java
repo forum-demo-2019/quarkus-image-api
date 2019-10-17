@@ -14,12 +14,15 @@ import java.nio.file.Paths;
 import java.util.stream.*;
 import java.util.*;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import java.io.File;
 
 @Path("/api")
 public class ImageResource {
 
-    private String dirName = "/home/mburgerh/work/java/quarkus-image-api/src/main/resources/images";
+    @ConfigProperty(name = "image-server.dirName")
+    String dirName;
 
     @GET
     @Path("/images")
