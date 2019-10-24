@@ -7,10 +7,10 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
-public class ImageResourceTest {
+class ImageResourceTest {
 
     @Test
-    public void testAllImagesEndpoint() {
+    void testAllImagesEndpoint() {
         given()
           .when().get("/api/images")
           .then()
