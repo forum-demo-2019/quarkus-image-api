@@ -37,3 +37,4 @@ release.properties
 src/main/resources/images/*
 
 .envrc
+tilix.json
