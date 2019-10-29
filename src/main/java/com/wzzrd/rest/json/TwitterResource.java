@@ -2,6 +2,7 @@ package com.wzzrd.rest.json;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import javax.persistence.Cacheable;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Cacheable
 @Path("/api/v2")
 public class TwitterResource {
 
@@ -24,7 +26,9 @@ public class TwitterResource {
     public List<String> all_images() {
         Stream<Twitter> Tweets = Twitter.streamAll();
         return Tweets
-                .map(t -> hostName + "/api/v2/image/" + t.filename)
+                .map(t -> hostName + "/api/v2/image/" +
+                        t.screenname + "_" +
+                        t.filename)
                 .collect(Collectors.toList());
     }
 
