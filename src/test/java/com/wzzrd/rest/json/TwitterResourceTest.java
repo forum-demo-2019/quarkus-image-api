@@ -9,12 +9,4 @@ import static org.hamcrest.CoreMatchers.is;
 @QuarkusTest
 class TwitterResourceTest {
 
-    @Test
-    void testAllImagesEndpoint() {
-        given()
-          .when().get("/api/v2/images")
-          .then()
-             .statusCode(200);
-    }
-
 }
