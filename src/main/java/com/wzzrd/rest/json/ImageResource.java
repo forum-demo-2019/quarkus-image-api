@@ -21,6 +21,7 @@ import java.io.File;
 @Path("/api")
 public class ImageResource {
 
+
     @ConfigProperty(name = "image-server.dirName")
     String dirName;
 
