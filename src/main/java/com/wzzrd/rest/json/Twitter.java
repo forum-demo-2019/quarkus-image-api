@@ -17,7 +17,12 @@ public class Twitter extends PanacheEntity {
     public String username;
     public String screenname;
     public String url;
+    public String filename;
     public LocalDate timestamp;
-    public String thumbnail;
+    public byte[] thumbnail;
+
+    public static Twitter findByFilename (String filename){
+        return find("filename", filename).firstResult();
+    }
 
 }
