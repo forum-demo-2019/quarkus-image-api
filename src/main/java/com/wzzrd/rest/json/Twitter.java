@@ -21,7 +21,7 @@ public class Twitter extends PanacheEntity {
     public byte[] thumbnail;
 
     public static Twitter findByFilename (String composite_filename){
-        String[] filename = composite_filename.split("_");
+        String[] filename = composite_filename.split("_", 2);
         return find("filename", filename[1]).firstResult();
     }
 
